@@ -10,27 +10,27 @@ var reset = function(){
 };
 
 var addition = function(number){
-  result = result + number;
+  result = parseFloat(result) + parseFloat(number);
   return result;
 };
 
 var subtraction = function(number){
-  result = result - number;
+  result = parseFloat(result) - parseFloat(number);
   return result;
 };
 
 var multiplication = function(number){
-  result = result * number;
+  result = parseFloat(result) * parseFloat(number);
   return result;
 };
 
 var division = function(number){
-  result = result / number;
+  result = parseFloat(result) / parseFloat(number);
   return result;
 };
 
 var modulus = function(number){
-  result = result % number;
+  result = parseFloat(result) % parseFloat(number);
   return result;
 };
 
@@ -111,6 +111,7 @@ $(".btn").on("click", function(){
       sequence += ' ' + text + ' ';
       $('.form-control').val(sequence);
       break;
+    case "0":
     case "1":
     case "2":
     case "3":
@@ -123,18 +124,18 @@ $(".btn").on("click", function(){
     case ".":
       if(operation === null){
         if(op1 === null){
-          op1 = parseFloat(text);
+          op1 = text;
         }
         else{
-          op1 = parseFloat(op1.toString() + text);
+          op1 = op1 + text;
         }
       }
       else{
         if(op2 === null){
-          op2 = parseFloat(text);
+          op2 = text;
         }
         else{
-          op2 = parseFloat(op2.toString() + text);
+          op2 = op2 + text;
         }
       }
       sequence += text;
