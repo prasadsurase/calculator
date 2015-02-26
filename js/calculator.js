@@ -9,6 +9,10 @@ var reset = function(){
   return;
 };
 
+var round = function(value, decimals){
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
+
 var addition = function(number){
   result = parseFloat(result) + parseFloat(number);
   return result;
@@ -40,7 +44,6 @@ var clearAll = function () {
   op2 = null;
   operation = null;
   sequence = '';
-  $('#result').text('');
   $('.form-control').val('');
 };
 
@@ -66,7 +69,7 @@ var computeResult = function(){
   op1 = result;
   op2 = null;
   operation = null
-  return result;
+  return round(result, 10);
 };
 
 var setOp1 = function(){
@@ -77,8 +80,7 @@ var setOp1 = function(){
 };
 
 var displayResult = function(res){
-  $('#result').text(res);
-  sequence = result;
+  sequence = res;
   $('.form-control').val(sequence);
 };
 
