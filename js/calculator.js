@@ -4,11 +4,6 @@ var op2 = null;
 var operation = null;
 var sequence = "";
 
-var reset = function(){
-  result = 0;
-  return;
-};
-
 var round = function(value, decimals){
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
