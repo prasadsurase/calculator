@@ -88,6 +88,7 @@ $(".btn").on("click", function(){
     case "=":
       var res = computeResult();
       displayResult(res);
+      operation = text;
       break;
     case "+":
     case "-":
@@ -119,6 +120,9 @@ $(".btn").on("click", function(){
     case "8":
     case "9":
     case ".":
+      if(operation === '='){
+        clearAll();
+      }
       if(operation === null){
         if(op1 === null){
           op1 = text;
