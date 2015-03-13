@@ -28,8 +28,8 @@ var division = function(number){
   return result;
 };
 
-var modulus = function(number){
-  result = parseFloat(result) % parseFloat(number);
+var percentage = function(number){
+  result = parseFloat(result) * parseFloat(number) / 100.0;
   return result;
 };
 
@@ -57,8 +57,8 @@ var computeResult = function(){
     case "/":
       division(op2);
       break;
-    case "%":
-      modulus(op2);
+    case "%*":
+      percentage(op2);
       break;
   }
   op1 = result;
@@ -122,6 +122,9 @@ $(".btn").on("click", function(){
     case ".":
       if(operation === '='){
         clearAll();
+      }
+      if(operation === '%'){
+        operation = operation + '*'
       }
       if(operation === null){
         if(op1 === null){
