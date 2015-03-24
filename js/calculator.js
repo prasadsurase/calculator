@@ -1,149 +1,159 @@
-var result = 0;
-var op1 = null;
-var op2 = null;
-var operation = null;
-var sequence = "";
+//var result = 0;
+//var op1 = null;
+//var op2 = null;
+//var operation = null;
+//var sequence = "";
 
-var round = function(value, decimals){
+function Calculator(){
+  this.result = 0; //the result of calculation
+  this.op1 = null; //operand 1
+  this.op2 = null; //operand 2k
+  this.operation = null; //the operation to be performed
+  this.sequence = ''; //the sequence entered
+}
+
+Calculator.prototype.round = function(value, decimals){
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
-var addition = function(number){
-  result = parseFloat(result) + parseFloat(number);
-  return result;
+Calculator.prototype.addition = function(){
+  this.result = parseFloat(this.result) + parseFloat(this.op2);
+  return this.result;
 };
 
-var subtraction = function(number){
-  result = parseFloat(result) - parseFloat(number);
-  return result;
+Calculator.prototype.subtraction = function(){
+  this.result = parseFloat(this.result) - parseFloat(this.op2);
+  return this.result;
 };
 
-var multiplication = function(number){
-  result = parseFloat(result) * parseFloat(number);
-  return result;
+Calculator.prototype.multiplication = function(){
+  this.result = parseFloat(this.result) * parseFloat(this.op2);
+  return this.result;
 };
 
-var division = function(number){
-  result = parseFloat(result) / parseFloat(number);
-  return result;
+Calculator.prototype.division = function(){
+  this.result = parseFloat(this.result) / parseFloat(this.op2);
+  return this.result;
 };
 
-var percentage = function(number){
-  result = parseFloat(result) * parseFloat(number) / 100.0;
-  return result;
+Calculator.prototype.percentage = function(){
+  this.result = parseFloat(this.result) * parseFloat(this.op2) / 100.0;
+  return this.result;
 };
 
-var clearAll = function () {
-  result = 0;
-  op1 = null;
-  op2 = null;
-  operation = null;
-  sequence = '';
+Calculator.prototype.clearAll = function () {
+  this.result = 0;
+  this.op1 = null;
+  this.op2 = null;
+  this.operation = null;
+  this.sequence = '';
   $('.form-control').val('');
 };
 
-var computeResult = function(){
-  result = op1;
-  switch(operation){
+Calculator.prototype.computeResult = function(){
+  this.result = this.op1;
+  switch(this.operation){
     case "+":
-      addition(op2);
-      break;
+      this.addition();
+    break;
     case "-":
-      subtraction(op2);
-      break;
+      this.subtraction();
+    break;
     case "*":
-      multiplication(op2);
-      break;
+      this.multiplication();
+    break;
     case "/":
-      division(op2);
-      break;
+      this.division();
+    break;
     case "%*":
-      percentage(op2);
-      break;
+      this.percentage();
+    break;
   }
-  op1 = result;
-  op2 = null;
-  operation = null
-  return round(result, 10);
+  this.op1 = this.result;
+  this.op2 = null;
+  this.operation = null
+  return this.round(this.result, 10);
 };
 
-var setOp1 = function(){
-  if(op1 === null){
-    op1 = 0;
-    sequence += '0'
+Calculator.prototype.setOp1 = function(){
+  if(this.op1 === null){
+    this.op1 = 0;
+    this.sequence += '0'
   }
 };
 
-var displayResult = function(res){
-  sequence = res;
-  $('.form-control').val(sequence);
+Calculator.prototype.displayResult = function(res){
+  this.sequence = res;
+  $('.form-control').val(this.sequence);
 };
+
+var cal = new Calculator()
 
 $(".btn").on("click", function(){
   var text = $(this).text();
   switch(text){
     case "AC":
-      clearAll();
+      cal.clearAll();
       break;
     case "=":
-      var res = computeResult();
-      displayResult(res);
-      operation = text;
+      var res = cal.computeResult();
+      cal.displayResult(res);
+      cal.operation = text;
       break;
     case "+":
-    case "-":
-    case "*":
-    case "/":
-    case "%":
-      setOp1();
-      if(operation === null){
-        operation = text;
-      }
-      else{
-        if(op2 != null){
-          computeResult();
-          operation = text;
-        }
-      }
-      operation = text;
-      sequence += ' ' + text + ' ';
-      $('.form-control').val(sequence);
-      break;
-    case "0":
-    case "1":
-    case "2":
-    case "3":
-    case "4":
-    case "5":
-    case "6":
-    case "7":
-    case "8":
-    case "9":
-    case ".":
-      if(operation === '='){
-        clearAll();
-      }
-      if(operation === '%'){
-        operation = operation + '*'
-      }
-      if(operation === null){
-        if(op1 === null){
-          op1 = text;
+      case "-":
+      case "*":
+      case "/":
+      case "%":
+        cal.setOp1();
+        if(cal.operation === null){
+          cal.operation = text;
         }
         else{
-          op1 = op1 + text;
+          if(cal.op2 != null){
+            cal.computeResult();
+            cal.operation = text;
+          }
         }
-      }
-      else{
-        if(op2 === null){
-          op2 = text;
+        cal.operation = text;
+        cal.sequence += ' ' + text + ' ';
+        $('.form-control').val(cal.sequence);
+        break;
+      case "0":
+      case "1":
+      case "2":
+      case "3":
+      case "4":
+      case "5":
+      case "6":
+      case "7":
+      case "8":
+      case "9":
+      case ".":
+        if(cal.operation === '='){
+          cal.clearAll();
+        }
+        if(cal.operation === '%'){
+          cal.operation = cal.operation + '*'
+        }
+        if(cal.operation === null){
+          if(cal.op1 === null){
+            cal.op1 = text;
+          }
+          else{
+            cal.op1 = cal.op1 + text;
+          }
         }
         else{
-          op2 = op2 + text;
+          if(cal.op2 === null){
+            cal.op2 = text;
+          }
+          else{
+            cal.op2 = cal.op2 + text;
+          }
         }
-      }
-      sequence += text;
-      $('.form-control').val(sequence);
-      break;
+        cal.sequence += text;
+        $('.form-control').val(cal.sequence);
+        break;
   }
 });
